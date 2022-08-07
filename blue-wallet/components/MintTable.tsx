@@ -12,6 +12,7 @@ import {
   InputGroup,
   InputRightElement,
 } from "@chakra-ui/react";
+import { format } from 'timeago.js'
 import { getAddress } from "ethers/lib/utils";
 import Image from "next/image";
 import React, { useCallback, useEffect, useState } from "react";
@@ -52,12 +53,14 @@ export const MintTable = () => {
 
   const _loadMints = useCallback(async () => {
     setLoading(true);
+    setLoadingTokenId(true);
     const mints: MintEvent[] = await fetch(
       "/api/mints" +
         (currentCollectionAddress ? currentCollectionAddress && currentTokenId ? `?address=${currentCollectionAddress}&tokenId=${currentTokenId}` : `?address=${currentCollectionAddress}` : '')
     ).then((res) => res.json());
     setMints(mints);
     setLoading(false);
+    setLoadingTokenId(false);
   }, [currentCollectionAddress, currentTokenId]);
 
   useEffect(() => {
@@ -91,6 +94,15 @@ export const MintTable = () => {
           maxWidth: "800px",
         }}
       >
+        <Button 
+          style={{ marginRight: '10px' }}
+          loadingText="Refreshing..."
+          isLoading={isLoading}
+          disabled={isLoading}
+          onClick={() => _loadMints()}
+        >
+          Refresh
+        </Button>
         <InputGroup size="md">
           <Input
             pr={isLoading ? "7.5rem" : "5.5rem"}
@@ -153,7 +165,7 @@ export const MintTable = () => {
           <Table variant="simple">
             <Thead>
               <Tr>
-                <Th>Minter</Th>
+                <Th>Timestamp</Th>
                 <Th>Recipient</Th>
                 <Th isNumeric>NFT Collection Name</Th>
                 <Th>Transaction</Th>
@@ -172,7 +184,7 @@ export const MintTable = () => {
                   <React.Fragment key={key}>
                     <Tr>
                       <Td>
-                        <Address address={mint.mint.originatorAddress} />
+                        {format(mint.mint.transactionInfo.blockTimestamp)}
                       </Td>
                       <Td>
                         <Address address={mint.mint.toAddress} />
@@ -224,7 +236,7 @@ export const MintTable = () => {
             </Tbody>
             <Tfoot>
               <Tr>
-                <Th>Minter</Th>
+                <Th>Timestamp</Th>
                 <Th>Recipient</Th>
                 <Th isNumeric>NFT Collection Name</Th>
                 <Th>Transaction</Th>
