@@ -75,13 +75,13 @@ export const MintTable = () => {
       <div style={{ marginTop: "2rem", minWidth: "320px", maxWidth: "800px" }}>
         <InputGroup size="md">
           <Input
-            pr="5.5rem"
+            pr={isLoading ? "7.5rem" : "5.5rem"}
             type="text"
             value={maybeCollectionAddress}
             placeholder="Search for a token collection"
             onChange={(e) => setMaybeCollectionAddress(e.target.value)}
           />
-          <InputRightElement width="5.5rem">
+          <InputRightElement width={isLoading ? "7.5rem" : "5.5rem"}>
             <Button
               loadingText="Loading..."
               isLoading={isLoading}
