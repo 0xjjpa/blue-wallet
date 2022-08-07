@@ -2,14 +2,11 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
-import { useCallback, useEffect, useState } from 'react';
 import { Text } from '@chakra-ui/react';
 
 import { DarkModeSwitch } from "../components/DarkModeSwitch";
 import { MintTable } from '../components/MintTable';
-import { MintEvent } from '../lib/types';
 import styles from '../styles/Home.module.css';
-import { SearchTable } from '../components/SearchTable';
 
 const Home: NextPage = () => {
   return (

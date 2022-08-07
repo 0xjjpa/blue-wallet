@@ -147,7 +147,7 @@ export const MintTable = () => {
                       </Td>
                     </Tr>
                     <Tr style={selectedKey != key ? { display: "none" } : {}}>
-                      <Td colSpan={6}>Hello world.</Td>
+                      <Td colSpan={6}>No Offers.</Td>
                     </Tr>
                   </React.Fragment>
                 );

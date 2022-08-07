@@ -1,3 +1,12 @@
+import { BigNumber } from "ethers/lib/ethers";
+
+export type Offer = {
+  maker: string;
+  currency: string;
+  findersFeeBps: number;
+  amount: BigNumber;
+}
+
 export type MintEvent = {
   mint: {
     networkInfo: {
