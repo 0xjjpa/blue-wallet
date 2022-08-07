@@ -8,8 +8,8 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<MintEvent[]>
 ) {
-  const { query: { address } } = req;
-  const query = MINTS_QUERY(address && `{collectionAddresses: "${address}"}`)
+  const { query: { address, tokenId } } = req;
+  const query = MINTS_QUERY(address ? address && tokenId ? `{tokens: {address: "${address}", tokenId: "${tokenId}"}}` : `{collectionAddresses: "${address}"}` : '{}')
   const response = await api<ZoraMintRequest>(API_ENDPOINT, {
     method: 'POST',
     headers: {

@@ -20,8 +20,6 @@ export default async function handler(
     if (!_tokenId) return res.status(501).json({ err: 'No tokenId provided' });
     if (!index) return res.status(501).json({ err: 'No index' });
 
-    console.log("INDEX", index)
-
     const readProvider = new providers.JsonRpcProvider(provider);
     const offerModuleContract = OffersV1__factory.connect(mainnetZoraAddresses.OffersV1, readProvider);
 

@@ -18,6 +18,7 @@ export type MintEvent = {
     tokenId: string,
     transactionInfo: {
       transactionHash: string
+      blockTimestamp: string
     }
     price: {
       nativePrice: {

@@ -17,6 +17,7 @@ query ListCollections {
           tokenId
           transactionInfo {
             transactionHash
+            blockTimestamp
           }
           price {
             nativePrice {

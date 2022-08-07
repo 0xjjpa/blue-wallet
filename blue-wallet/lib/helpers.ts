@@ -11,3 +11,9 @@ export function truncate(
 export function genKey(...args: string[]): string {
     return args.reduce((val, accum) => accum += "-" + val, "");
 }
+
+// If a word is excessively long, we shorten it up
+export function shorten(_word: string, limit = 10, maxChars = 6): string {
+  if (_word.length > limit) return truncate(_word, _word.length - maxChars, maxChars);
+  return _word;
+}

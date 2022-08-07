@@ -44,7 +44,6 @@ export default async function handler(
   }));
 
   const nft = mintedNFTs[0];
-  console.log("Nft", nft)
 
   const findersFeeBps = "100" // 1%
 

@@ -15,7 +15,7 @@ import {
 import { getAddress } from "ethers/lib/utils";
 import Image from "next/image";
 import React, { useCallback, useEffect, useState } from "react";
-import { genKey } from "../lib/helpers";
+import { genKey, shorten } from "../lib/helpers";
 import { MintEvent } from "../lib/types";
 import { Address } from "./atoms/Address";
 import { Transaction } from "./atoms/Transaction";
@@ -24,11 +24,14 @@ import { OfferTable } from "./OfferTable";
 export const MintTable = () => {
   const TIMEOUT_MAX_DELAY_MS = 1000;
   const [isLoading, setLoading] = useState<boolean>(false);
+  const [isLoadingTokenId, setLoadingTokenId] = useState<boolean>(false);
   const [mints, setMints] = useState<MintEvent[]>([]);
   const [maybeCollectionAddress, setMaybeCollectionAddress] =
     useState<string>("");
   const [currentCollectionAddress, setCurrentCollectionAddress] =
     useState<string>("");
+  const [maybeTokenId, setMaybeTokenId] = useState<string>();
+  const [currentTokenId, setCurrentTokenId] = useState<string>();
 
   const updateCurrentCollectionAddress = () => {
     try {
@@ -39,15 +42,23 @@ export const MintTable = () => {
     }
   };
 
+  const updateCurrentTokenId = () => {
+    try {
+      setCurrentTokenId(maybeTokenId);
+    } catch (err: any) {
+      setCurrentTokenId(undefined);
+    }
+  };
+
   const _loadMints = useCallback(async () => {
     setLoading(true);
     const mints: MintEvent[] = await fetch(
       "/api/mints" +
-        (currentCollectionAddress && `?address=${currentCollectionAddress}`)
+        (currentCollectionAddress ? currentCollectionAddress && currentTokenId ? `?address=${currentCollectionAddress}&tokenId=${currentTokenId}` : `?address=${currentCollectionAddress}` : '')
     ).then((res) => res.json());
     setMints(mints);
     setLoading(false);
-  }, [currentCollectionAddress]);
+  }, [currentCollectionAddress, currentTokenId]);
 
   useEffect(() => {
     const delayMS = (t = TIMEOUT_MAX_DELAY_MS) => {
@@ -72,7 +83,14 @@ export const MintTable = () => {
     );
   return (
     <>
-      <div style={{ marginTop: "2rem", minWidth: "320px", maxWidth: "800px" }}>
+      <div
+        style={{
+          display: "flex",
+          marginTop: "2rem",
+          minWidth: "320px",
+          maxWidth: "800px",
+        }}
+      >
         <InputGroup size="md">
           <Input
             pr={isLoading ? "7.5rem" : "5.5rem"}
@@ -100,6 +118,35 @@ export const MintTable = () => {
             </Button>
           </InputRightElement>
         </InputGroup>
+        {currentCollectionAddress && (
+          <InputGroup size="md" style={{ marginLeft: "10px"}}>
+            <Input
+              pr={isLoadingTokenId ? "7.5rem" : "5.5rem"}
+              type="text"
+              value={maybeTokenId}
+              placeholder="Search for a token within collection"
+              onChange={(e) => setMaybeTokenId(e.target.value)}
+            />
+            <InputRightElement width={isLoadingTokenId ? "7.5rem" : "5.5rem"}>
+              <Button
+                loadingText="Loading..."
+                isLoading={isLoadingTokenId}
+                h="1.75rem"
+                size="sm"
+                onClick={() =>
+                  !currentTokenId
+                    ? updateCurrentTokenId()
+                    : (() => {
+                        setMaybeTokenId("");
+                        setCurrentTokenId("");
+                      })()
+                }
+              >
+                {!currentTokenId ? "Search" : "Reset"}
+              </Button>
+            </InputRightElement>
+          </InputGroup>
+        )}
       </div>
       {mints.length > 0 && (
         <TableContainer>
@@ -131,16 +178,14 @@ export const MintTable = () => {
                         <Address address={mint.mint.toAddress} />
                       </Td>
                       <Td>
-                        <div style={{display: "flex", alignItems: "center"}}>
+                        <div style={{ display: "flex", alignItems: "center" }}>
                           <Image
                             src={mint.token?.image?.mediaEncoding?.thumbnail}
                             width="32px"
                             height="32px"
                             alt={mint.token.collectionName}
                           />{" "}
-                          <span
-                            style={{ padding: "0 10px"}}
-                          >
+                          <span style={{ padding: "0 10px" }}>
                             {mint.token.collectionName}
                           </span>
                         </div>
@@ -150,7 +195,7 @@ export const MintTable = () => {
                           tx={mint.mint.transactionInfo.transactionHash}
                         />
                       </Td>
-                      <Td isNumeric>{mint.mint.tokenId}</Td>
+                      <Td isNumeric>{shorten(mint.mint.tokenId)}</Td>
                       <Td isNumeric>
                         {mint.mint.price.nativePrice.decimal.toString()}
                       </Td>
