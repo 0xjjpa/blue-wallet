@@ -18,9 +18,25 @@ query ListCollections {
           transactionInfo {
             transactionHash
           }
+          price {
+            nativePrice {
+              currency {
+                address
+                name
+              }
+              decimal
+            }
+          }
         }
         token {
           collectionName
+          image {
+            mediaEncoding {
+              ... on ImageEncodingTypes {
+                thumbnail
+              }
+            }
+          }
         }
       }
     }

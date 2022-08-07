@@ -13,6 +13,7 @@ import {
   InputRightElement,
 } from "@chakra-ui/react";
 import { getAddress } from "ethers/lib/utils";
+import Image from "next/image";
 import React, { useCallback, useEffect, useState } from "react";
 import { genKey } from "../lib/helpers";
 import { MintEvent } from "../lib/types";
@@ -110,6 +111,7 @@ export const MintTable = () => {
                 <Th isNumeric>NFT Collection Name</Th>
                 <Th>Transaction</Th>
                 <Th>Token Id</Th>
+                <Th>Mint Price</Th>
                 <Th>Actions</Th>
               </Tr>
             </Thead>
@@ -128,13 +130,30 @@ export const MintTable = () => {
                       <Td>
                         <Address address={mint.mint.toAddress} />
                       </Td>
-                      <Td>{mint.token.collectionName}</Td>
+                      <Td>
+                        <div style={{display: "flex", alignItems: "center"}}>
+                          <Image
+                            src={mint.token?.image?.mediaEncoding?.thumbnail}
+                            width="32px"
+                            height="32px"
+                            alt={mint.token.collectionName}
+                          />{" "}
+                          <span
+                            style={{ padding: "0 10px"}}
+                          >
+                            {mint.token.collectionName}
+                          </span>
+                        </div>
+                      </Td>
                       <Td>
                         <Transaction
                           tx={mint.mint.transactionInfo.transactionHash}
                         />
                       </Td>
                       <Td isNumeric>{mint.mint.tokenId}</Td>
+                      <Td isNumeric>
+                        {mint.mint.price.nativePrice.decimal.toString()}
+                      </Td>
                       <Td>
                         <Button
                           onClick={() =>
@@ -149,7 +168,7 @@ export const MintTable = () => {
                     </Tr>
                     {selectedKey == key && (
                       <Tr>
-                        <Td colSpan={6}>
+                        <Td colSpan={7}>
                           <OfferTable mint={mint} />
                         </Td>
                       </Tr>
@@ -165,6 +184,7 @@ export const MintTable = () => {
                 <Th isNumeric>NFT Collection Name</Th>
                 <Th>Transaction</Th>
                 <Th>Token Id</Th>
+                <Th>Mint Price</Th>
                 <Th>Actions</Th>
               </Tr>
             </Tfoot>

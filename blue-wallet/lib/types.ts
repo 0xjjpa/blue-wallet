@@ -19,9 +19,23 @@ export type MintEvent = {
     transactionInfo: {
       transactionHash: string
     }
+    price: {
+      nativePrice: {
+        currency: {
+          address: string
+          name: string
+        }
+        decimal: BigNumber
+      }
+    }
   }
   token: {
     collectionName: string
+    image: {
+      mediaEncoding: {
+        thumbnail: string
+      }
+    }
   }
 
 }
