@@ -2,7 +2,7 @@ import 'dotenv/config'
 import { NextApiResponse, NextApiRequest } from 'next'
 import { computeAddress, getAddress, parseEther } from 'ethers/lib/utils';
 import { providers, Wallet } from 'ethers/lib/ethers';
-import rinkebyZoraAddresses from "@zoralabs/v3/dist/addresses/4.json";
+import mainnetZoraAddresses from "@zoralabs/v3/dist/addresses/1.json";
 import { OffersV1__factory } from "@zoralabs/v3/dist/typechain/factories/OffersV1__factory";
 
 import { MINTS_QUERY } from "../../lib/query";
@@ -20,7 +20,7 @@ export default async function handler(
   const privateKey = String("0x" + process.env.PRIVATE_KEY);
 
   const wallet = new Wallet(privateKey, new providers.JsonRpcProvider(provider));
-  const offerModuleContract = OffersV1__factory.connect(rinkebyZoraAddresses.OffersV1, wallet);
+  const offerModuleContract = OffersV1__factory.connect(mainnetZoraAddresses.OffersV1, wallet);
 
   const minter = getAddress(strategy_one.address);
   const query = MINTS_QUERY(minter && `{minterAddresses: "${minter}"}`)

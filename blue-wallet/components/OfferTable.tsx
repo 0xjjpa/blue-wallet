@@ -48,8 +48,7 @@ import { formatEther, parseEther } from "ethers/lib/utils";
   
     return (
       <>
-        {isLoading && <p>Loading...</p>}
-        {offers.length > 0 && (
+        {isLoading ? <p>Loading...</p> : offers.length > 0 ? (
           <TableContainer>
             <Table variant="simple">
               <Thead>
@@ -84,7 +83,7 @@ import { formatEther, parseEther } from "ethers/lib/utils";
               </Tbody>
             </Table>
           </TableContainer>
-        )}
+        ): <p>No offers.</p>}
       </>
     );
   };

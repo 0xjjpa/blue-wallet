@@ -5,7 +5,7 @@ import { truncate } from "../../lib/helpers";
 export const Address = ({ address }: { address: string }) => (
   <Link
     isExternal
-    href={`${etherscanBlockExplorers.rinkeby.url}/address/${address}`}
+    href={`${etherscanBlockExplorers.mainnet.url}/address/${address}`}
   >
     <Text as="pre">{truncate(address)}</Text>
   </Link>

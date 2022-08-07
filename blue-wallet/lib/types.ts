@@ -10,7 +10,7 @@ export type Offer = {
 export type MintEvent = {
   mint: {
     networkInfo: {
-      chain: "RINKEBY"
+      chain: "MAINNET"
     }
     toAddress: string,
     collectionAddress: string,

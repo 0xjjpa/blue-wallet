@@ -4,7 +4,7 @@ query ListCollections {
       pagination: {}
       sort: {sortKey: TIME, sortDirection: DESC}
       where: ${minterAddresses}
-      networks: {chain: RINKEBY}
+      networks: {chain: MAINNET}
     ) {
       nodes {
         mint {

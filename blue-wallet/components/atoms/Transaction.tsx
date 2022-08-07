@@ -5,7 +5,7 @@ import { truncate } from "../../lib/helpers";
 export const Transaction = ({ tx }: { tx: string }) => (
   <Link
     isExternal
-    href={`${etherscanBlockExplorers.rinkeby.url}/tx/${tx}`}
+    href={`${etherscanBlockExplorers.mainnet.url}/tx/${tx}`}
   >
     <Text as="pre">{truncate(tx, 60)}</Text>
   </Link>
