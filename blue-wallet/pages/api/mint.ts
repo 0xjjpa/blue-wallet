@@ -12,7 +12,6 @@ import { strategy_one } from "../../lib/strategy";
 import { API_ENDPOINT } from '../../lib/constants';
 
 
-
 export default async function handler(
     _req: NextApiRequest,
     res: NextApiResponse<{ status: string }>

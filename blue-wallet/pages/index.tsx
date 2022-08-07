@@ -3,6 +3,9 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import { useCallback, useEffect, useState } from 'react';
+
+import { DarkModeSwitch } from "../components/DarkModeSwitch";
+import { MintTable } from '../components/MintTable';
 import { MintEvent } from '../lib/types';
 import styles from '../styles/Home.module.css';
 
@@ -35,7 +38,7 @@ const Home: NextPage = () => {
         <title>Blue Mage</title>
         <meta
           name="description"
-          content="A mimic-like bot to automate offers in the NFT market"
+          content="A utility to automate offers in the NFT market"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -48,8 +51,10 @@ const Home: NextPage = () => {
         </h1>
 
         <p className={styles.description}>
-          A mimic-like bot to automate offers in the NFT market.
+          A utility to automate offers in the NFT market.
         </p>
+
+        <MintTable mints={mints} />
 
         <div className={styles.grid}>
           <a href="https://rainbowkit.com" className={styles.card}>
@@ -94,7 +99,7 @@ const Home: NextPage = () => {
           </a>
         </div>
       </main>
-
+      <DarkModeSwitch />
       <footer className={styles.footer}>
         <a href="https://rainbow.me" target="_blank" rel="noopener noreferrer">
           Made with ❤️ by your frens at 🌈
