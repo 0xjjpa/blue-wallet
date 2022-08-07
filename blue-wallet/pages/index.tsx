@@ -55,6 +55,10 @@ const Home: NextPage = () => {
           A utility to automate offers in the NFT market.
         </p>
 
+        <div className={styles.grid}>
+          <h3 className={styles.subtitle}>Latest Mints</h3>
+          <p className={styles.descriptor}>NFTs minted recently (time of load)</p>
+        </div>
         <MintTable mints={mints} />
       </main>
       <DarkModeSwitch />
