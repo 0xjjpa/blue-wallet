@@ -32,11 +32,11 @@ export default async function handler(
         const promisedOffers = index.map(async (_index) => offerModuleContract.offers(getAddress(collectionAddress), _tokenId, _index));
         const _offers = await Promise.all(promisedOffers);
         _offers.map(offer => {
-          offers.push({ maker: offer.maker, currency: offer.currency, findersFeeBps: offer.findersFeeBps, amount: offer.amount });
+          offers.push({ maker: offer.maker, currency: offer.currency, findersFeeBps: offer.findersFeeBps, amount: offer.amount.toString() });
         })
       } else {
         const offer = await offerModuleContract.offers(getAddress(collectionAddress), _tokenId, index);
-        offers.push({ maker: offer.maker, currency: offer.currency, findersFeeBps: offer.findersFeeBps, amount: offer.amount });
+        offers.push({ maker: offer.maker, currency: offer.currency, findersFeeBps: offer.findersFeeBps, amount: offer.amount.toString() });
       }
       return res.status(200).json({ offers })
     } catch (err: any) {

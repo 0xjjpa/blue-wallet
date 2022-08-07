@@ -4,7 +4,7 @@ export type Offer = {
   maker: string;
   currency: string;
   findersFeeBps: number;
-  amount: BigNumber;
+  amount: string;
 }
 
 export type MintEvent = {

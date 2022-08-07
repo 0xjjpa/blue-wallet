@@ -18,6 +18,7 @@ import { genKey } from "../lib/helpers";
 import { MintEvent } from "../lib/types";
 import { Address } from "./atoms/Address";
 import { Transaction } from "./atoms/Transaction";
+import { OfferTable } from "./OfferTable";
 
 export const MintTable = () => {
   const TIMEOUT_MAX_DELAY_MS = 1000;
@@ -142,13 +143,17 @@ export const MintTable = () => {
                               : setSelectedNFT(mint)
                           }
                         >
-                          {key == selectedKey ? "Hide" : "Inspect"}
+                          {key == selectedKey ? "Hide" : "Offers"}
                         </Button>
                       </Td>
                     </Tr>
-                    <Tr style={selectedKey != key ? { display: "none" } : {}}>
-                      <Td colSpan={6}>No Offers.</Td>
-                    </Tr>
+                    {selectedKey == key && (
+                      <Tr>
+                        <Td colSpan={6}>
+                          <OfferTable mint={mint} />
+                        </Td>
+                      </Tr>
+                    )}
                   </React.Fragment>
                 );
               })}

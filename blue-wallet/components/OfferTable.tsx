@@ -8,6 +8,7 @@ import {
     Td,
     TableContainer,
   } from "@chakra-ui/react";
+import { formatEther, parseEther } from "ethers/lib/utils";
   import React, { useCallback, useEffect, useState } from "react";
   import { MintEvent, Offer } from "../lib/types";
   import { Address } from "./atoms/Address";
@@ -20,13 +21,14 @@ import {
     
     const _loadOffers = useCallback(async () => {
       setLoading(true);
-      const indexes: number[] = await fetch(
+      const indexes: { offers: number[] } = await fetch(
         `/api/offers?address=${mint.mint.collectionAddress}&tokenId=${mint.mint.tokenId}`
       ).then(res => res.json())
-      const offers: Offer[] = await fetch(
-        `/api/offer?address=${mint.mint.collectionAddress}&tokenId=${mint.mint.tokenId}&index=${indexes.toString()}`
+      const indexQuery = indexes?.offers.map( index => `index=${index}`).join('&').toString()
+      const response: { offers: Offer[] } = await fetch(
+        `/api/offer?address=${mint.mint.collectionAddress}&tokenId=${mint.mint.tokenId}&${indexQuery}`
       ).then(res => res.json());
-      setOffers(offers);
+      response && response.offers && setOffers(response.offers);
       setLoading(false);
     }, [mint]);
   
@@ -73,21 +75,13 @@ import {
                           {offer.findersFeeBps}
                         </Td>
                         <Td>
-                          {offer.amount.toNumber()}
+                          {formatEther(offer.amount)}
                         </Td>
                       </Tr>
                     </React.Fragment>
                   );
                 })}
               </Tbody>
-              <Tfoot>
-                <Tr>
-                  <Th>Maker</Th>
-                  <Th>Currency</Th>
-                  <Th>FindersFeeBps</Th>
-                  <Th isNumeric>Amount</Th>
-                </Tr>
-              </Tfoot>
             </Table>
           </TableContainer>
         )}
