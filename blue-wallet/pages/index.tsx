@@ -9,30 +9,9 @@ import { DarkModeSwitch } from "../components/DarkModeSwitch";
 import { MintTable } from '../components/MintTable';
 import { MintEvent } from '../lib/types';
 import styles from '../styles/Home.module.css';
+import { SearchTable } from '../components/SearchTable';
 
 const Home: NextPage = () => {
-  const TIMEOUT_MAX_DELAY_MS = 1000;
-  const [mints, setMints] = useState<MintEvent[]>([]);
-
-  const _loadMints = useCallback(async () => {
-    const mints: MintEvent[] = await fetch('/api/mints').then(res => res.json());
-    setMints(mints);
-  }, []);
-
-  useEffect(() => {
-    const delayMS = (t = TIMEOUT_MAX_DELAY_MS) => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(t);
-        }, t);
-      });
-    };
-    const loadMints = async () => {
-      await Promise.all([_loadMints(), delayMS()]);
-    };
-    loadMints();
-  }, [_loadMints]);
-
   return (
     <div className={styles.container}>
       <Head>
@@ -59,7 +38,8 @@ const Home: NextPage = () => {
           <h3 className={styles.subtitle}>Latest Mints</h3>
           <p className={styles.descriptor}>NFTs minted recently (time of load)</p>
         </div>
-        <MintTable mints={mints} />
+        <MintTable/>
+        
       </main>
       <DarkModeSwitch />
       <footer className={styles.footer}>

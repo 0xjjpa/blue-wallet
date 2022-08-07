@@ -5,10 +5,11 @@ import { MINTS_QUERY } from '../../lib/query'
 import { MintEvent, ZoraMintRequest } from '../../lib/types'
 
 export default async function handler(
-  _req: NextApiRequest,
+  req: NextApiRequest,
   res: NextApiResponse<MintEvent[]>
 ) {
-  const query = MINTS_QUERY()
+  const { query: { address } } = req;
+  const query = MINTS_QUERY(address && `{collectionAddresses: "${address}"}`)
   const response = await api<ZoraMintRequest>(API_ENDPOINT, {
     method: 'POST',
     headers: {
