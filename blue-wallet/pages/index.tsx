@@ -1,6 +1,7 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import Image from 'next/image';
 import { useCallback, useEffect, useState } from 'react';
 import { MintEvent } from '../lib/types';
 import styles from '../styles/Home.module.css';
@@ -43,7 +44,7 @@ const Home: NextPage = () => {
         <ConnectButton />
 
         <h1 className={styles.title}>
-          Welcome to <a href="">Blue Wallet</a>
+          Welcome to <a href="">Blue Mage</a> <Image src="/images/bm.png" width="35px" height="50px" alt="Blue Mage" />
         </h1>
 
         <p className={styles.description}>
