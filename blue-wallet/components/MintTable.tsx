@@ -13,14 +13,16 @@ import {
   InputRightElement,
 } from "@chakra-ui/react";
 import { format } from 'timeago.js'
-import { getAddress } from "ethers/lib/utils";
+import { getAddress, parseEther } from "ethers/lib/utils";
 import Image from "next/image";
+
 import React, { useCallback, useEffect, useState } from "react";
 import { genKey, shorten } from "../lib/helpers";
 import { MintEvent } from "../lib/types";
 import { Address } from "./atoms/Address";
 import { Transaction } from "./atoms/Transaction";
 import { OfferTable } from "./OfferTable";
+import { OfferButton } from "./OfferButton";
 
 export const MintTable = () => {
   const TIMEOUT_MAX_DELAY_MS = 1000;
@@ -100,6 +102,7 @@ export const MintTable = () => {
           isLoading={isLoading}
           disabled={isLoading}
           onClick={() => _loadMints()}
+          width="300px"
         >
           Refresh
         </Button>
@@ -192,6 +195,7 @@ export const MintTable = () => {
                       <Td>
                         <div style={{ display: "flex", alignItems: "center" }}>
                           <Image
+                            unoptimized
                             src={mint.token?.image?.mediaEncoding?.thumbnail}
                             width="32px"
                             height="32px"
@@ -219,14 +223,17 @@ export const MintTable = () => {
                               : setSelectedNFT(mint)
                           }
                         >
-                          {key == selectedKey ? "Hide" : "Offers"}
+                          {key == selectedKey ? "Hide" : "Actions"}
                         </Button>
                       </Td>
                     </Tr>
                     {selectedKey == key && (
                       <Tr>
-                        <Td colSpan={7}>
+                        <Td colSpan={6}>
                           <OfferTable mint={mint} />
+                        </Td>
+                        <Td colSpan={1}>
+                          <OfferButton mint={mint} />
                         </Td>
                       </Tr>
                     )}

@@ -33,7 +33,7 @@ const Home: NextPage = () => {
 
         <div className={styles.grid}>
         <p className={styles.descriptor}>The website loads the most recent NFT minted in the Ethereum network. Click on any specific one to create an offer.</p>
-          <p className={styles.descriptor}>You can also search for specific (e.g. 0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D) NFTs minted.</p>
+          <p className={styles.descriptor}>You can also search for specific (e.g. 0xCa21d4228cDCc68D4e23807E5e370C07577Dd152) NFTs minted.</p>
         </div>
         <MintTable/>
         
